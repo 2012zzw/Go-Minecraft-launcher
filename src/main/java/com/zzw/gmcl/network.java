@@ -24,12 +24,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
+import java.net.URI;
 import com.google.gson.stream.MalformedJsonException;
 import java.io.IOException;
 public class network {
-    public static JsonElement get_json(String url){
+    public static JsonElement get_json(String uri){
         JsonParser jsonParser = new JsonParser();
+        URI url = URI.create(uri);
         try {
             Logger.getInstance().log("Accessing "+"url"+" through get");
             CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -46,6 +47,10 @@ public class network {
             return jsonElement.getAsJsonObject();
         } catch (IOException e) {
             return jsonParser.parse("{}");
+        } catch (IllegalArgumentException e){
+            System.err.println("URI 格式不正确：" + e.getMessage());
+            return jsonParser.parse("{}");
         }
+
     }
 }

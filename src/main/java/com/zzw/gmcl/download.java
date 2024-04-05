@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.zzw.gmcl;
+
+import java.nio.file.Paths;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -27,6 +29,7 @@ import java.util.Objects;
 
 public class download {
     static String url1="http://127.0.0.1:5000";//https://piston-meta.mojang.com
+    static String path=".minecraft";
     public static List<VersionInfo> get_versions() {
         JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json");
         JsonObject jsonObject = versions_json.getAsJsonObject();
@@ -62,8 +65,31 @@ public class download {
             return;
         }
         else{
-            JsonElement version_json=network.get_json(versionObject.get("url").toString());
-            JsonObject version_jsonObject = versions_json.getAsJsonObject();
+            String url = versionObject.get("url").toString();
+            url = url.substring(1, url.length() - 1);
+            JsonElement version_json=network.get_json(url);
+            JsonObject version_jsonObject = version_json.getAsJsonObject();
+            JsonObject client_object;
+            JsonObject classifiersObject;
+            client_object=version_jsonObject.get("downloads").getAsJsonObject().get("client").getAsJsonObject();
+            String sha1 = client_object.get("sha1").toString();
+            sha1 = sha1.substring(1, sha1.length() - 1);
+            DownloadQueue.getInstance().addItem(client_object.get("url").toString(),
+                    Paths.get(path, "versions",version,version+".jar").toString(),
+                    "client",sha1, version);
+            JsonArray libraries = version_jsonObject.getAsJsonArray("libraries");
+            for (JsonElement librariesElement : libraries) {
+                versionObject = librariesElement.getAsJsonObject().get("downloads").getAsJsonObject();
+                if(versionObject.get("classifiers")==null){
+                    DownloadQueue.getInstance().addItem(client_object.get("url").toString(),
+                            Paths.get(path, "versions",version,version+".jar").toString(),
+                            "client",sha1, version);
+                }
+                else{
+                    classifiersObject = librariesElement.getAsJsonObject().get("classifiers").getAsJsonObject();
+                    //if(classifiersObject.get("classifiers")!=null)
+                }
+            }
         }
     }
     static class VersionInfo {

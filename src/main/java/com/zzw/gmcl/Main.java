@@ -27,5 +27,20 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String version = scanner.nextLine();
         download.download_versions(version);
+        displayDownloadQueue();
+    }
+    public static void displayDownloadQueue() {
+        // 获取下载队列实例
+        DownloadQueue downloadQueue = DownloadQueue.getInstance();
+
+        // 获取队列中的所有项目并打印
+        List<DownloadQueue.DownloadItem> queue = downloadQueue.getQueue();
+        for (DownloadQueue.DownloadItem item : queue) {
+            System.out.println("File Address: " + item.getFileAddress());
+            System.out.println("File Type: " + item.getFileType());
+            System.out.println("SHA1 Value: " + item.getSha1Value());
+            System.out.println("Version: " + item.getVersion());
+            System.out.println();
+        }
     }
 }
