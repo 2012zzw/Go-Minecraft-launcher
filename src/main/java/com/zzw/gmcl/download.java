@@ -23,26 +23,49 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-public class download {
-        static String url="http://127.0.0.1:5000";
-        public static List get_versions() {
-            JsonElement versions_json=network.get_json(url+"/mc/game/version_manifest.json");
-            JsonObject jsonObject = versions_json.getAsJsonObject();
-            JsonArray versionsArray = jsonObject.getAsJsonArray("versions");
-            List<VersionInfo> versionList = new ArrayList<>();
-            for (JsonElement versionElement : versionsArray) {
-                JsonObject versionObject = versionElement.getAsJsonObject();
-                String id = versionObject.get("id").getAsString();
-                String type = versionObject.get("type").getAsString();
-                versionList.add(new VersionInfo(id, type));
-            }
-            for (VersionInfo versionInfo : versionList) {
-                System.out.println("ID: " + versionInfo.getId() + ", Type: " + versionInfo.getType());
-            }
+import java.util.Objects;
 
-            return versionList;
+public class download {
+    static String url1="http://127.0.0.1:5000";//https://piston-meta.mojang.com
+    public static List<VersionInfo> get_versions() {
+        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json");
+        JsonObject jsonObject = versions_json.getAsJsonObject();
+        JsonArray versionsArray = jsonObject.getAsJsonArray("versions");
+        List<VersionInfo> versionList = new ArrayList<>();
+        for (JsonElement versionElement : versionsArray) {
+            JsonObject versionObject = versionElement.getAsJsonObject();
+            String id = versionObject.get("id").getAsString();
+            String type = versionObject.get("type").getAsString();
+            versionList.add(new VersionInfo(id, type));
+        }
+        for (VersionInfo versionInfo : versionList) {
+            System.out.println("ID: " + versionInfo.getId() + ", Type: " + versionInfo.getType());
         }
 
+        return versionList;
+    }
+    public static void download_versions(String version){
+        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json");
+        JsonObject jsonObject = versions_json.getAsJsonObject();
+        JsonArray versionsArray = jsonObject.getAsJsonArray("versions");
+        boolean is_id_true=false;
+        JsonObject versionObject=null;
+        for (JsonElement versionElement : versionsArray) {
+            versionObject = versionElement.getAsJsonObject();
+            String id = versionObject.get("id").getAsString();
+            if (Objects.equals(id, version)){
+                is_id_true=true;
+                break;
+            }
+        }
+        if (is_id_true==false){
+            return;
+        }
+        else{
+            JsonElement version_json=network.get_json(versionObject.get("url").toString());
+            JsonObject version_jsonObject = versions_json.getAsJsonObject();
+        }
+    }
     static class VersionInfo {
         private String id;
         private String type;
@@ -60,4 +83,5 @@ public class download {
             return type;
         }
         }
+
 }

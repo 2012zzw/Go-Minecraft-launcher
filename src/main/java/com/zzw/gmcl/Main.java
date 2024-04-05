@@ -16,8 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.zzw.gmcl;
+import java.util.List;
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        System.out.println(download.get_versions());
+        List<download.VersionInfo> VersionList =download.get_versions();
+        for (download.VersionInfo versionInfo : VersionList) {
+            System.out.println(versionInfo.getId() + ", " + versionInfo.getType());
+        }
+        Scanner scanner = new Scanner(System.in);
+        String version = scanner.nextLine();
+        download.download_versions(version);
     }
 }

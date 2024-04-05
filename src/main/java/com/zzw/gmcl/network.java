@@ -31,6 +31,7 @@ public class network {
     public static JsonElement get_json(String url){
         JsonParser jsonParser = new JsonParser();
         try {
+            Logger.getInstance().log("Accessing "+"url"+" through get");
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpGet);
