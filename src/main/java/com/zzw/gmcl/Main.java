@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
-        List<download.VersionInfo> VersionList =download.get_versions();
+        /*List<download.VersionInfo> VersionList =download.get_versions();
         for (download.VersionInfo versionInfo : VersionList) {
             System.out.println(versionInfo.getId() + ", " + versionInfo.getType());
         }
@@ -28,6 +28,9 @@ public class Main {
         String version = scanner.nextLine();
         download.download_versions(version);
         displayDownloadQueue();
+
+         */
+
     }
     public static void displayDownloadQueue() {
         // 获取下载队列实例
