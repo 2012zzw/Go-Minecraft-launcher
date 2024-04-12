@@ -18,4 +18,10 @@
 package com.zzw.gmcl;
 
 public class login {
+    static String code="";
+    static String microsoft_url="https://login.live.com/oauth20_authorize.srf%20?client_id=00000000402b5328&response_type=code&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL%20&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf";
+    public static void login_with_microsoft(){
+        code="";
+        Web.renderWebPage(microsoft_url,true);
+    }
 }

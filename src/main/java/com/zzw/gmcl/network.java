@@ -48,7 +48,7 @@ public class network {
         } catch (IOException e) {
             return jsonParser.parse("{}");
         } catch (IllegalArgumentException e){
-            System.err.println("URI 鏍煎紡涓嶆纭細" + e.getMessage());
+            System.err.println("URI 格式不正确：" + e.getMessage());
             return jsonParser.parse("{}");
         }
 
