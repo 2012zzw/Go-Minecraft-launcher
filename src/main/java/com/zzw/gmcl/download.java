@@ -31,7 +31,7 @@ public class download {
     static String url1="http://127.0.0.1:5000";//https://piston-meta.mojang.com
     static String path=".minecraft";
     public static List<VersionInfo> get_versions() {
-        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json");
+        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json","");
         JsonObject jsonObject = versions_json.getAsJsonObject();
         JsonArray versionsArray = jsonObject.getAsJsonArray("versions");
         List<VersionInfo> versionList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class download {
         return versionList;
     }
     public static void download_versions(String version){
-        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json");
+        JsonElement versions_json=network.get_json(url1+"/mc/game/version_manifest.json","");
         JsonObject jsonObject = versions_json.getAsJsonObject();
         JsonArray versionsArray = jsonObject.getAsJsonArray("versions");
         boolean is_id_true=false;
@@ -67,7 +67,7 @@ public class download {
         else{
             String url = versionObject.get("url").toString();
             url = url.substring(1, url.length() - 1);
-            JsonElement version_json=network.get_json(url);
+            JsonElement version_json=network.get_json(url,"");
             JsonObject version_jsonObject = version_json.getAsJsonObject();
             JsonObject client_object;
             JsonObject classifiersObject;

@@ -30,7 +30,7 @@ public class Main {
         displayDownloadQueue();
 
          */
-        login.login_with_microsoft();
+        System.out.println(login.login_with_microsoft());
     }
     public static void displayDownloadQueue() {
         // 获取下载队列实例
